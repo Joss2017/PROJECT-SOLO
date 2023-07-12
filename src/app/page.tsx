@@ -21,5 +21,6 @@ export default function Home() {
         gravida leo a mauris tristique, ut accumsan velit venenatis.
       </p>
     </div>
+    
   );
 }

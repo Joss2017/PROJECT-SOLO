@@ -1,45 +1,98 @@
 'use client';
-import React, { FormEvent, useRef } from 'react';
-import './style.css';
+
+import { FormEvent, useState } from 'react';
 
 const Contact = () => {
-  const emailElement = useRef<HTMLInputElement>(null);
-  const passwordElement = useRef<HTMLInputElement>(null);
+  const initialFormState = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+  };
+  const [formData, setFormData] = useState(initialFormState);
 
-  const handleSubmitForm = (e: FormEvent) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    console.log('button form clicked');
-    console.log(emailElement.current?.value);
-    console.log(passwordElement.current?.value);
+    console.log(formData);
+    setFormData(initialFormState);
   };
 
   return (
-    <div className='App'>
-      <h1>Demo formulaire</h1>
-      {/*<form onSubmit={(e) =>{handleSubmitForm(e)}}>*/}
-      <form className='w-50 m-auto' onSubmit={handleSubmitForm}>
-        <div className='form-floating mb-3'>
+    <div className='flex flex-col items-center justify-center min-h-screen'>
+      <h1 className='text-3xl font-bold mb-4'>Formulaire</h1>
+      <form onSubmit={handleSubmit} className='bg-white p-8 rounded shadow-md'>
+        <div className='flex flex-col mb-4'>
+          <label htmlFor='firstName' className='mb-2 text-lg'>
+            Prénom
+          </label>
+          <input
+            type='text'
+            name='firstName'
+            id='firstName'
+            value={formData.firstName}
+            onChange={handleChange}
+            placeholder='Prénom'
+            className='p-2 border border-gray-300 rounded'
+            required
+          />
+        </div>
+        <div className='flex flex-col mb-4'>
+          <label htmlFor='lastName' className='mb-2 text-lg'>
+            Nom
+          </label>
+          <input
+            type='text'
+            name='lastName'
+            id='lastName'
+            value={formData.lastName}
+            onChange={handleChange}
+            placeholder='Nom'
+            className='p-2 border border-gray-300 rounded'
+            required
+          />
+        </div>
+        <div className='flex flex-col mb-4'>
+          <label htmlFor='email' className='mb-2 text-lg'>
+            Email
+          </label>
           <input
             type='email'
-            className='form-control'
-            id='emailUser'
-            placeholder='name@example.com'
-            ref={emailElement}
+            name='email'
+            id='email'
+            value={formData.email}
+            onChange={handleChange}
+            placeholder='Email'
+            className='p-2 border border-gray-300 rounded'
+            required
           />
-          <label htmlFor='emailUser'>Email</label>
         </div>
-        <div className='form-floating'>
+        <div className='flex flex-col mb-4'>
+          <label htmlFor='phone' className='mb-2 text-lg'>
+            Téléphone
+          </label>
           <input
-            type='password'
-            className='form-control'
-            id='passwordUser'
-            placeholder='Password'
-            ref={passwordElement}
+            type='tel'
+            name='phone'
+            id='phone'
+            value={formData.phone}
+            onChange={handleChange}
+            placeholder='Téléphone'
+            className='p-2 border border-gray-300 rounded'
+            required
           />
-          <label htmlFor='passwordUser'>Mot de passe</label>
         </div>
-        <button className='mt-3 btn btn-primary' type='submit'>
-          Se connecter
+        <button
+          type='submit'
+          className='bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded'
+        >
+          Envoyer
         </button>
       </form>
     </div>
